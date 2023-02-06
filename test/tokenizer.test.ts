@@ -65,4 +65,11 @@ describe('gpt3 tokenizer test', () => {
     expect(encoded.bpe).toEqual([11246, 62, 8189, 284, 10100, 617, 62, 3549, 62, 8189]);
     expect(tokenizer.decode(encoded.bpe)).toEqual(str);
   });
+
+  it('works with counting tokens with some simple text', () => {
+    const tokenizer = new GPT3Tokenizer({ type: 'gpt3' });
+    const str = "This is some text";
+    const numTokens = tokenizer.getTokenCount(str);
+    expect(numTokens).toEqual(4);
+  })
 });

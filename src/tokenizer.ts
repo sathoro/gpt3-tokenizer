@@ -192,6 +192,22 @@ export default abstract class GPT3Tokenizer {
     return word;
   }
 
+  getTokenCount(text: string): number {
+    let count = 0;
+
+    const matches = text.match(bpeRegex) || [];
+    let newTokens;
+
+    for (let token of matches) {
+      token = Array.from(this.encodeUtf8(token)).map((x) => this.byteEncoder.get(x)).join('');
+      newTokens = this.bpe(token).split(' ').map((x) => this.encodings[x]);
+
+      count += newTokens.length;
+    }
+
+    return count;
+  }
+
   abstract encodeUtf8(text: string): Uint8Array;
 
   encode(text: string): { bpe: number[]; text: string[] } {
